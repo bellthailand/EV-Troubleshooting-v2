@@ -83,21 +83,41 @@ const tabStyle = (a: any) => ({ flex:1, padding:"9px 0", border:"none", backgrou
 // ═══════════════════════════════════════════════════════
 // HELPERS
 // ═══════════════════════════════════════════════════════
-function compressImage(file, maxW=800, quality=0.7) {
-  return new Promise(resolve => {
+function compressImage(
+  file: File,
+  maxW: number = 800,
+  quality: number = 0.7
+): Promise<string> {
+  return new Promise((resolve, reject) => {
     const reader = new FileReader();
-    reader.onload = e => {
+
+    reader.onload = (event: ProgressEvent<FileReader>) => {
       const img = new Image();
+
       img.onload = () => {
         const canvas = document.createElement("canvas");
-        let w = img.width, h = img.height;
-        if (w > maxW) { h = Math.round(h * maxW / w); w = maxW; }
-        canvas.width = w; canvas.height = h;
-        canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+        const scale = maxW / img.width;
+        const width = maxW;
+        const height = img.height * scale;
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext("2d");
+        if (!ctx) {
+          reject("Canvas context error");
+          return;
+        }
+
+        ctx.drawImage(img, 0, 0, width, height);
         resolve(canvas.toDataURL("image/jpeg", quality));
       };
-      img.src = e.target.result;
+
+      if (event.target?.result) {
+        img.src = event.target.result as string;
+      }
     };
+
     reader.readAsDataURL(file);
   });
 }
