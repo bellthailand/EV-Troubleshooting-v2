@@ -155,11 +155,11 @@ async function saveCase(c: any) {
     localStorage.setItem(caseKey(c.id), JSON.stringify(c));
   } catch {}
 }
-    try { await window.storage.set(caseKey(c.id), JSON.stringify({...meta,images:[],confirmImages:[]})); } catch {}
-  }
-}
-async function deleteCase(id) {
-  try { await window.storage.delete(caseKey(id)); } catch {}
+   
+async function deleteCase(id: string) {
+  try {
+    localStorage.removeItem(caseKey(id));
+  } catch {}
 }
 function calcRisk(causes, hardStop) {
   if (hardStop) return 76 + (Math.random()*10|0);
