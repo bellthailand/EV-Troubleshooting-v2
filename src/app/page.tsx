@@ -190,10 +190,14 @@ function runDiagnose(input: string, customRules: any[]) {
       confidence: 90
     };
   }
-}
-  const allRules = [...RULES, ...customRules];
-  const matched = allRules.map(rule=>({ rule, hits:rule.keywords.filter(k=>text.includes(k)).length }))
-    .filter(m=>m.hits>0).sort((a,b)=>b.hits-a.hits);
+ const allRules =[...RULES, ...customRules];
+ const matched = allRules
+  .map(rule => ({
+    rule,
+    hits: rule.keywords.filter((k: string) => text.includes(k)).length
+  }))
+  .filter(m => m.hits > 0)
+  .sort((a, b) => b.hits - a.hits); 
   if (!matched.length) return null;
   const best = matched[0].rule;
   const risk = calcRisk(best.causes, best.hardStop);
