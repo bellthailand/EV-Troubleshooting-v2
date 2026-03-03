@@ -78,7 +78,7 @@ const S = {
   btnS: { padding:"8px 14px", borderRadius:6, border:`1px solid ${C.brd}`, background:"transparent", color:C.sub, fontSize:11, cursor:"pointer", fontFamily:FONT },
   lbl:  { fontSize:10, color:C.sub, fontWeight:700, letterSpacing:"0.08em", display:"block", marginBottom:5, textTransform:"uppercase" },
 };
-const tabStyle = (a) => ({ flex:1, padding:"9px 0", border:"none", background:"transparent", color:a?C.cyn:C.sub, fontSize:10, fontWeight:a?700:400, cursor:"pointer", fontFamily:FONT, borderBottom:a?`2px solid ${C.cyn}`:`2px solid transparent`, textTransform:"uppercase", letterSpacing:"0.05em" });
+const tabStyle = (a: any) => ({ flex:1, padding:"9px 0", border:"none", background:"transparent", color:a?C.cyn:C.sub, fontSize:10, fontWeight:a?700:400, cursor:"pointer", fontFamily:FONT, borderBottom:a?`2px solid ${C.cyn}`:`2px solid transparent`, textTransform:"uppercase", letterSpacing:"0.05em" });
 
 // ═══════════════════════════════════════════════════════
 // HELPERS
