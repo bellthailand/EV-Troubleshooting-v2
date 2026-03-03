@@ -124,7 +124,7 @@ function compressImage(
 
 const IDX_KEY   = "ev_idx";
 const RULES_KEY = "ev_rules";
-const caseKey   = id => `ev_case_${id}`;
+const caseKey = (id: string) => `ev_case_${id}`;
 
 async function loadIndex() {
   try { const r = await window.storage.get(IDX_KEY); return r ? JSON.parse(r.value) : []; } catch { return []; }
