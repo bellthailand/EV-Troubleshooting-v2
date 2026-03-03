@@ -175,10 +175,22 @@ function riskLevel(score: number) {
 function runDiagnose(input: string, customRules: any[]) {
   const text = input.toLowerCase();
   const codeMatch = text.match(/\b(code\s*)?(\d{2})\b/);
-  if (codeMatch && ERROR_CODES[codeMatch[2]]) {
-    const ec = ERROR_CODES[codeMatch[2]];
-    return { type:"errorcode", code:codeMatch[2], ec, risk:ec.risk, rl:riskLevel(ec.risk), confidence:95 };
+  if (codeMatch) {
+  const key = codeMatch[2] as keyof typeof ERROR_CODES;
+
+  if (ERROR_CODES[key]) {
+    const ec = ERROR_CODES[key];
+
+    return {
+      type: "errorcode",
+      code: key,
+      ec,
+      risk: ec.risk,
+      rl: riskLevel(ec.risk),
+      confidence: 90
+    };
   }
+}
   const allRules = [...RULES, ...customRules];
   const matched = allRules.map(rule=>({ rule, hits:rule.keywords.filter(k=>text.includes(k)).length }))
     .filter(m=>m.hits>0).sort((a,b)=>b.hits-a.hits);
