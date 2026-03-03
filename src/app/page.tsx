@@ -127,17 +127,34 @@ const RULES_KEY = "ev_rules";
 const caseKey = (id: string) => `ev_case_${id}`;
 
 async function loadIndex() {
-  try { const r = await window.storage.get(IDX_KEY); return r ? JSON.parse(r.value) : []; } catch { return []; }
+  try {
+    const r = localStorage.getItem(IDX_KEY);
+    return r ? JSON.parse(r) : [];
+  } catch {
+    return [];
+  }
 }
-async function saveIndex(idx) {
-  try { await window.storage.set(IDX_KEY, JSON.stringify(idx)); } catch {}
+
+async function saveIndex(idx: any) {
+  try {
+    localStorage.setItem(IDX_KEY, JSON.stringify(idx));
+  } catch {}
 }
-async function loadCase(id) {
-  try { const r = await window.storage.get(caseKey(id)); return r ? JSON.parse(r.value) : null; } catch { return null; }
+
+async function loadCase(id: string) {
+  try {
+    const r = localStorage.getItem(caseKey(id));
+    return r ? JSON.parse(r) : null;
+  } catch {
+    return null;
+  }
 }
-async function saveCase(c) {
-  const { images, confirmImages, ...meta } = c;
-  try { await window.storage.set(caseKey(c.id), JSON.stringify(c)); } catch {
+
+async function saveCase(c: any) {
+  try {
+    localStorage.setItem(caseKey(c.id), JSON.stringify(c));
+  } catch {}
+}
     try { await window.storage.set(caseKey(c.id), JSON.stringify({...meta,images:[],confirmImages:[]})); } catch {}
   }
 }
