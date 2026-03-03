@@ -161,18 +161,18 @@ async function deleteCase(id: string) {
     localStorage.removeItem(caseKey(id));
   } catch {}
 }
-function calcRisk(causes, hardStop) {
+function calcRisk(causes: any[], hardStop: boolean) {
   if (hardStop) return 76 + (Math.random()*10|0);
   const base = causes[0]?.parts?.length > 0 ? 55 : 35;
   return Math.min(75, base + (causes[0]?.prob > 70 ? 10 : 0));
 }
-function riskLevel(score) {
+function riskLevel(score: number) {
   if (score >= 76) return { label:"CRITICAL", color:"#ff3b3b", bg:"#ff3b3b22" };
   if (score >= 56) return { label:"HIGH",     color:"#ff8c00", bg:"#ff8c0022" };
   if (score >= 31) return { label:"MEDIUM",   color:"#ffd700", bg:"#ffd70022" };
   return               { label:"LOW",      color:"#00e87a", bg:"#00e87a22" };
 }
-function runDiagnose(input, customRules) {
+function runDiagnose(input: string, customRules: any[]) {
   const text = input.toLowerCase();
   const codeMatch = text.match(/\b(code\s*)?(\d{2})\b/);
   if (codeMatch && ERROR_CODES[codeMatch[2]]) {
